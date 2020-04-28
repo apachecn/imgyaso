@@ -10,8 +10,9 @@ from .util import *
 modes = ['grid', 'noise', 'trunc', 'quant', 'thres']
 
 def main():
-    parser = argparse.ArgumentParser(description='ImgYaso')
+    parser = argparse.ArgumentParser(prog="ImgYaso", description="provide various image compression methods", formatter_class=argparse.RawDescriptionHelpFormatter)
 
+    parser.add_argument("-v", "--version", action="version", version=f"ImgYaso version: {__version__}")
     parser.add_argument('fname', help='file name to be processed')
     parser.add_argument('-c', '--colors', type=int, default=8, help='num of colors')
     parser.add_argument('-m', '--mode', default=modes[0], choices=modes, help='processing mode')
