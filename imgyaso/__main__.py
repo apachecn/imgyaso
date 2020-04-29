@@ -3,7 +3,7 @@ from os import path
 from . import __version__
 from .adathres import adathres_bts
 from .dither import grid_bts, noise_bts
-from .quant import pngquant
+from .quant import pngquant_bts
 from .trunc import trunc_bts
 from .util import *
 
@@ -34,7 +34,7 @@ def main():
     elif args.mode == 'trunc':
         img = trunc_bts(img, args.colors)
     elif args.mode == 'quant':
-        img = pngquant(img, args.colors)
+        img = pngquant_bts(img, args.colors)
     elif args.mode == 'thres':
         img = adathres_bts(img)
     

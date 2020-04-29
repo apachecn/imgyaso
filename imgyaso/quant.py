@@ -7,6 +7,11 @@ import sys
 from .util import *
 
 def pngquant(img, ncolors=8):
+    img = bytes(cv2.imencode('.png', img, [cv2.IMWRITE_PNG_COMPRESSION, 9])[1])
+    img = pngquant_bts(img, ncolors)
+    return cv2.imdecode(np.frombuffer(img, np.uint8), cv2.IMREAD_UNCHANGED)
+
+def pngquant_bts(img, ncolors=8):
     img = conv2png(img)
     fname = path.join(
         tempfile.gettempdir(), 
@@ -27,7 +32,7 @@ def pngquant(img, ncolors=8):
 def main():
     fname = sys.argv[1]
     img = open(fname, 'rb').read()
-    img = pngquant(img)
+    img = pngquant_bts(img)
     with open(fname, 'wb') as f:
         f.write(img)
     
