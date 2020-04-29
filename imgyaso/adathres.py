@@ -8,6 +8,7 @@ import sys
 
 def adathres_bts(img, win=9, beta=0.9):
     img = cv2.imdecode(np.frombuffer(img, np.uint8), cv2.IMREAD_GRAYSCALE)
+    if img is None: return None
     img = adathres(img, win, beta).astype(np.uint8)
     img = bytes(cv2.imencode('.png', img, [cv2.IMWRITE_PNG_BILEVEL, 1])[1])
     return img

@@ -4,6 +4,7 @@ import numpy as np
 
 def trunc_bts(img, l=4):
     img = cv2.imdecode(np.frombuffer(img, np.uint8), cv2.IMREAD_GRAYSCALE)
+    if img is None: return None
     img = trunc(img, l).astype(np.uint8)
     img = bytes(cv2.imencode('.png', img, [cv2.IMWRITE_PNG_COMPRESSION, 9])[1])
     return img
