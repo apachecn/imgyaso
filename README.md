@@ -4,7 +4,7 @@
 
 ## 安装
 
-通过pip（推荐）：
+通过 pip（推荐）：
 
 ```
 pip install imgyaso
@@ -16,7 +16,7 @@ pip install imgyaso
 pip install git+https://github.com/apachecn/imgyaso
 ```
 
-并且安装 [ImageMagick](https://imagemagick.org/script/download.php) 和 [pngquant](https://pngquant.org/)。
+并且安装 [ImageMagick](https://imagemagick.org/script/download.php)。
 
 ## 使用说明
 
@@ -28,7 +28,7 @@ imgyaso [-h] [-v] [-c COLORS] [-m {grid,noise,trunc,quant,thres}]
 -c COLORS: 颜色数，只对 trunc, quant 模式有效
 -m MODE: 模式名称，值为 grid（灰度网格仿色），noise（灰度扩散仿色），
          trunc（灰度截断），quant（颜色缩减），thres（自适应二值化），
-         默认为 grid
+         默认为 quant
 -o OFNAME: 输出文件名称，默认和输入文件相同
 fname: 输入文件名称
 ```

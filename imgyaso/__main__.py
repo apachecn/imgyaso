@@ -8,7 +8,7 @@ from .quant import pngquant_bts
 from .trunc import trunc_bts
 from .util import *
 
-modes = ['grid', 'noise', 'trunc', 'quant', 'thres']
+modes = ['quant', 'grid', 'noise', 'trunc', 'thres']
 
 is_img = lambda s: re.search(r'\.(jpg|jpeg|gif|png|bmp|webp|tiff)$', s)
 

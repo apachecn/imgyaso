@@ -1,9 +1,8 @@
-import subprocess as subp
-import tempfile
-import uuid
-import os
-from os import path
 import sys
+import cv2
+import libimagequant as liq
+from PIL import Image
+from io import BytesIO
 from .util import *
 
 def pngquant(img, ncolors=8):
@@ -13,22 +12,31 @@ def pngquant(img, ncolors=8):
 
 def pngquant_bts(img, ncolors=8):
     img = conv2png(img)
-    fname = path.join(
-        tempfile.gettempdir(), 
-        uuid.uuid4().hex + '.png'
-    )
-    with open(fname, 'wb') as f:
-        f.write(img)
-    subp.Popen(
-        ['pngquant', str(ncolors), fname, '-o', fname, '-f'],
-        stdout=subp.PIPE,
-        stderr=subp.PIPE,
-    ).communicate()
-    with open(fname, 'rb') as f:
-        img = f.read()
-    os.unlink(fname)
-    return img
+    img = Image.open(BytesIO(img)).convert('RGBA')
+    w, h = img.width, img.height
+    bytes = img.tobytes()
     
+    attr = liq.Attr()
+    attr.max_colors = ncolors
+    img = attr.create_rgba(bytes, w, h, 0)
+    res = img.quantize(attr)
+    res.dithering_level = 1.0
+    bytes = res.remap_image(img)
+    palette = res.get_palette()
+    
+    img = Image.frombytes('P', (w, h), bytes)
+    
+    palette_data = []
+    for color in palette:
+        palette_data.append(color.r)
+        palette_data.append(color.g)
+        palette_data.append(color.b)
+    img.putpalette(palette_data)
+    
+    bio = BytesIO()
+    img.save(bio, 'PNG', optimize=True)
+    return bio.getvalue()
+
 def main():
     fname = sys.argv[1]
     img = open(fname, 'rb').read()
