@@ -109,11 +109,15 @@ def grid(img):
     return img
 
 def grid_bts(img):
-    img = cv2.imdecode(np.frombuffer(img, np.uint8), cv2.IMREAD_GRAYSCALE)
+    img = np.frombuffer(img, np.uint8)
+    img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
     if img is None: return None
     img = grid(img).astype(np.uint8)
-    img = bytes(cv2.imencode('.png', img, [cv2.IMWRITE_PNG_COMPRESSION, 9])[1])
-    return img
+    img = cv2.imencode(
+        '.png', img, 
+        [cv2.IMWRITE_PNG_COMPRESSION, 9]
+    )[1]
+    return bytes(img)
 
 def noise(img):
     assert img.ndim == 2
@@ -130,12 +134,15 @@ def noise(img):
     return img
 
 def noise_bts(img):
-    img = cv2.imdecode(np.frombuffer(img, np.uint8), cv2.IMREAD_GRAYSCALE)
+    img = np.frombuffer(img, np.uint8)
+    img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
     if img is None: return None
     img = noise(img).astype(np.uint8)
-    img = bytes(cv2.imencode('.png', img, [cv2.IMWRITE_PNG_COMPRESSION, 9])[1])
-    return img
-
+    img = cv2.imencode(
+        '.png', img, 
+        [cv2.IMWRITE_PNG_COMPRESSION, 9]
+    )[1]
+    return bytes(img)
 
 def main():
     fname = sys.argv[1]
