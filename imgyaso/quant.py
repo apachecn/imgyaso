@@ -33,9 +33,10 @@ def pngquant_bts(img, ncolors=8):
     
     palette_data = []
     for color in palette:
-        palette_data.append(color.r)
-        palette_data.append(color.g)
-        palette_data.append(color.b)
+        if color.a == 0:
+            palette_data.extend([255, 255, 255])
+        else:
+            palette_data.extend([color.r, color.g, color.b])
     img.putpalette(palette_data)
     
     bio = BytesIO()
