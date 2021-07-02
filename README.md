@@ -16,7 +16,7 @@ pip install imgyaso
 pip install git+https://github.com/apachecn/imgyaso
 ```
 
-并且安装 [ImageMagick](https://imagemagick.org/script/download.php)。
+并且安装 [ImageMagick](https://imagemagick.org/script/download.php)。可能还需要安装`libgl1`。
 
 ## 使用说明
 
