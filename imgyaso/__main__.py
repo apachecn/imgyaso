@@ -19,6 +19,9 @@ def process_file(args):
     
     with open(args.fname, 'rb') as f:
         img = f.read()
+    if not is_img_data(img):
+        print('not valid img file')
+        return
     
     if args.mode == 'grid':
         img = grid_bts(img)

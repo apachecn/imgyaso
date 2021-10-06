@@ -109,7 +109,7 @@ def grid(img):
     return img
 
 def grid_bts(img):
-    if is_svg(img): return img
+    if not is_img_data(img): return img
     img = conv2png(img)
     img = np.frombuffer(img, np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
@@ -136,7 +136,7 @@ def noise(img):
     return img
 
 def noise_bts(img):
-    if is_svg(img): return img
+    if not is_img_data(img): return img
     img = conv2png(img)
     img = np.frombuffer(img, np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
