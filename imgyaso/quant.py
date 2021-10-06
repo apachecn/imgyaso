@@ -16,6 +16,7 @@ def pngquant(img, ncolors=8):
     return cv2.imdecode(img, cv2.IMREAD_UNCHANGED)
 
 def pngquant_bts(img, ncolors=8):
+    if is_svg(img): return img
     img = conv2png(img)
     img = Image.open(BytesIO(img)).convert('RGBA')
     w, h = img.width, img.height
