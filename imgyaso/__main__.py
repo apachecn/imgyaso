@@ -19,7 +19,6 @@ def process_file(args):
     
     with open(args.fname, 'rb') as f:
         img = f.read()
-    img = conv2png(img)
     
     if args.mode == 'grid':
         img = grid_bts(img)
