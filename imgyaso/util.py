@@ -6,6 +6,9 @@ from os import path
 from PIL import Image
 from io import BytesIO
 
+def is_svg(img):
+    return img[:5] == b'<?xml'
+
 def conv2png(img):
     if img[:4] == b'\x89PNG':
         return img

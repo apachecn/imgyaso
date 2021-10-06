@@ -5,8 +5,10 @@ import re
 import os
 from os import path
 import sys
+from .util import *
 
 def adathres_bts(img, win=9, beta=0.9):
+    img = conv2png(img)
     img = np.frombuffer(img, np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
     if img is None: return None

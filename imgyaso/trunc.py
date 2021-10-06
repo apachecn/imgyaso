@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 
 def trunc_bts(img, l=4):
+    img = conv2png(img)
     img = np.frombuffer(img, np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
     if img is None: return None
