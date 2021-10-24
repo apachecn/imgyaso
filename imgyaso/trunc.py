@@ -1,6 +1,7 @@
 import sys
 import cv2
 import numpy as np
+from .util import *
 
 def trunc_bts(img, l=4):
     if not is_img_data(img): return img
