@@ -12,4 +12,4 @@ from .util import *
 __author__ = "ApacheCN"
 __email__ = "apachecn@163.com"
 __license__ = "SATA"
-__version__ = "2021.10.25.0"
+__version__ = "2022.8.8.0"
