@@ -149,6 +149,26 @@ def noise_bts(img):
     )[1]
     return bytes(img)
 
+def noisebw(img):
+    assert img.ndim == 2
+
+    r = np.random.randint(255, size=img.shape)
+    img = np.where(r < img, 255, 0)
+    return img
+
+def noisebw_bts(img):
+    if not is_img_data(img): return img
+    img = conv2png(img)
+    img = np.frombuffer(img, np.uint8)
+    img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
+    if img is None: return None
+    img = noisebw(img).astype(np.uint8)
+    img = cv2.imencode(
+        '.png', img, 
+        [cv2.IMWRITE_PNG_BILEVEL, 1]
+    )[1]
+    return bytes(img)
+
 def main():
     fname = sys.argv[1]
     img = open(fname, 'rb').read()
