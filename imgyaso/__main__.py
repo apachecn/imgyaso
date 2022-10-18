@@ -3,7 +3,7 @@ import re
 from os import path
 from . import __version__
 from .adathres import adathres_bts
-from .dither import grid_bts, noise_bts
+from .dither import grid_bts, noise_bts, noisebw_bts
 from .quant import pngquant_bts
 from .trunc import trunc_bts
 from multiprocessing import Pool
@@ -11,7 +11,7 @@ import copy
 import traceback
 from .util import *
 
-modes = ['quant', 'grid', 'noise', 'trunc', 'thres']
+modes = ['quant', 'grid', 'noise', 'noisebw', 'trunc', 'thres']
 
 is_img = lambda s: re.search(r'\.(jpg|jpeg|gif|png|bmp|webp|tiff)$', s)
 
@@ -36,6 +36,8 @@ def process_file(args):
         img = grid_bts(img)
     elif args.mode == 'noise':
         img = noise_bts(img)
+    elif args.mode == 'noisebw':
+        img = noisebw_bts(img)
     elif args.mode == 'trunc':
         img = trunc_bts(img, args.colors)
     elif args.mode == 'quant':
