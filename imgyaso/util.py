@@ -3,8 +3,10 @@ import tempfile
 import uuid
 import os
 from os import path
-from PIL import Image
+from PIL import Image, ImageFile
 from io import BytesIO
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 headers = {
     'png': b'\x89PNG',

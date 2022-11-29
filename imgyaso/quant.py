@@ -1,9 +1,11 @@
 import sys
 import cv2
 import libimagequant as liq
-from PIL import Image
+from PIL import Image, ImageFile
 from io import BytesIO
 from .util import *
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def pngquant(img, ncolors=8):
     img = cv2.imencode(
