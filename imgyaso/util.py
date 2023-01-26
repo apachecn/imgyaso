@@ -30,5 +30,5 @@ def conv2png(img):
         return img
     img = Image.open(BytesIO(img))
     bio = BytesIO()
-    img.save(bio, 'png')
+    img.convert('RGBA').save(bio, 'png')
     return bio.getvalue()
