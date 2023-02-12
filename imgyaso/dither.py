@@ -1,12 +1,11 @@
 # coding: utf-8
 
-# 四色网格仿色
-
 import sys
 import cv2
 import numpy as np
 from .util import *
 
+nclr = 17 # len(pts) + 1
 pts = [
     [0, 0], # 1/16
     [2, 2],
@@ -26,6 +25,7 @@ pts = [
     [3, 1], # 16/16
 ]
 
+'''
 settings = [
     {'fc': 0, 'bc': 0, 'k': 0}, # b
     {'fc': 85, 'bc': 0, 'k': 1}, 
@@ -77,13 +77,16 @@ settings = [
     {'fc': 255, 'bc': 170, 'k': 15}, 
     {'fc': 0, 'bc': 255, 'k': 0}, # w
 ]
+'''
 
+'''
 def make_noise(size, fc=0, bc=255, k=8):
     # P(fc) = k/16, P(bc) = (16-k)/16
     if k == 0: return np.zeros(size) + bc
     idx = np.random.random(size) < k/16
     img = np.where(idx, fc, bc)
     return img
+'''
 
 def make_grid(size, fc=0, bc=255, k=8):
     img = np.zeros(size) + bc
@@ -95,12 +98,18 @@ def make_grid(size, fc=0, bc=255, k=8):
 def grid(img):
     assert img.ndim == 2
 
-    patterns = [make_grid([4, 4], **kw) for kw in settings]
+    patterns = [
+        make_grid([4, 4], fc=255, bc=0, k=k) 
+        for k in range(nclr)
+    ]
 
-    clrs = np.linspace(0, 255, len(settings)).astype(int)
+    clrs = np.linspace(0, 255, nclr).astype(int)
     delims = (clrs[1:] + clrs[:-1]) // 2
     delims = np.asarray([0, *delims, 256])
-    idcs = [np.where((img >= st) & (img < ed)) for st, ed in zip(delims[:-1], delims[1:])]
+    idcs = [
+        np.where((img >= st) & (img < ed)) 
+        for st, ed in zip(delims[:-1], delims[1:])
+    ]
     
     img = img.copy()
     for idx, pt in zip(idcs, patterns):
@@ -118,10 +127,11 @@ def grid_bts(img):
     img = grid(img).astype(np.uint8)
     img = cv2.imencode(
         '.png', img, 
-        [cv2.IMWRITE_PNG_COMPRESSION, 9]
+        [cv2.IMWRITE_PNG_BILEVEL, 1]
     )[1]
     return bytes(img)
 
+'''
 def noise(img):
     assert img.ndim == 2
 
@@ -148,26 +158,30 @@ def noise_bts(img):
         [cv2.IMWRITE_PNG_COMPRESSION, 9]
     )[1]
     return bytes(img)
+'''
 
-def noisebw(img):
+def noise(img):
     assert img.ndim == 2
 
     r = np.random.randint(255, size=img.shape)
     img = np.where(r < img, 255, 0)
     return img
 
-def noisebw_bts(img):
+def noise_bts(img):
     if not is_img_data(img): return img
     img = conv2png(img)
     img = np.frombuffer(img, np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_GRAYSCALE)
     if img is None: return None
-    img = noisebw(img).astype(np.uint8)
+    img = noise(img).astype(np.uint8)
     img = cv2.imencode(
         '.png', img, 
         [cv2.IMWRITE_PNG_BILEVEL, 1]
     )[1]
     return bytes(img)
+
+noisebw = noise
+noisebw_bts = noise_bts
 
 def main():
     fname = sys.argv[1]
